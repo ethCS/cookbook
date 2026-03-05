@@ -1,0 +1,1 @@
+export default function RecipeDetail() { return <div className="p-8">Recipe Detail</div>; }
