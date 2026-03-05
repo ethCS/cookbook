@@ -1,1 +1,187 @@
-export default function RecipeDetail() { return <div className="p-8">Recipe Detail</div>; }
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { mealdb } from "../services/mealdb";
+import { useFavorites } from "../hooks/useFavorites";
+import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
+
+export default function RecipeDetail() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+  const [meal, setMeal] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [ingredients, setIngredients] = useState([]);
+
+  useEffect(() => {
+    const load = async () => {
+      setLoading(true);
+      const data = await mealdb.getById(id);
+      setMeal(data);
+      if (data) setIngredients(mealdb.parseIngredients(data));
+      setLoading(false);
+    };
+    load();
+  }, [id]);
+
+  const handleFavorite = async () => {
+    if (!user) {
+      toast.error("Sign in to save favorites");
+      navigate("/auth");
+      return;
+    }
+    if (isFavorite(id)) {
+      await removeFavorite(id);
+      toast.success("Removed from favorites");
+    } else {
+      await addFavorite(meal);
+      toast.success("Added to favorites");
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-stone-950 px-6 pt-12 max-w-4xl mx-auto">
+        <div className="h-8 w-32 bg-stone-900 rounded animate-pulse mb-8" />
+        <div className="h-80 bg-stone-900 rounded-3xl animate-pulse mb-8" />
+        <div className="space-y-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="h-4 bg-stone-900 rounded animate-pulse" style={{ width: `${80 - i * 8}%` }} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (!meal) {
+    return (
+      <div className="min-h-screen bg-stone-950 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-stone-400 text-lg mb-4">Recipe not found</p>
+          <button onClick={() => navigate(-1)} className="text-amber-400 text-sm hover:text-amber-300">
+            Go back
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const favorited = isFavorite(id);
+
+  return (
+    <div className="min-h-screen bg-stone-950 pb-24">
+
+      {/* Hero image */}
+      <div className="relative h-72 sm:h-96 w-full overflow-hidden">
+        <img
+          src={meal.strMealThumb}
+          alt={meal.strMeal}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent" />
+
+        <button
+          onClick={() => navigate(-1)}
+          className="absolute top-6 left-6 bg-black/40 hover:bg-black/60 backdrop-blur-sm text-white rounded-full px-4 py-2 text-sm transition-colors"
+        >
+          Back
+        </button>
+      </div>
+
+      <div className="max-w-3xl mx-auto px-6 -mt-12 relative">
+
+        {/* Title card */}
+        <div className="flex items-start justify-between gap-4 mb-8">
+          <div>
+            <h1 className="text-3xl sm:text-4xl font-bold text-stone-100 tracking-tight leading-tight mb-3">
+              {meal.strMeal}
+            </h1>
+            <div className="flex flex-wrap gap-2">
+              {meal.strCategory && (
+                <span className="px-3 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-full text-xs font-medium">
+                  {meal.strCategory}
+                </span>
+              )}
+              {meal.strArea && (
+                <span className="px-3 py-1 bg-stone-800 border border-stone-700 text-stone-400 rounded-full text-xs font-medium">
+                  {meal.strArea}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <button
+            onClick={handleFavorite}
+            className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-medium transition-all ${
+              favorited
+                ? "bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20"
+                : "bg-stone-900 border-stone-800 text-stone-400 hover:border-amber-500/30 hover:text-amber-400"
+            }`}
+          >
+            <span>{favorited ? "♥" : "♡"}</span>
+            <span>{favorited ? "Saved" : "Save"}</span>
+          </button>
+        </div>
+
+        <div className="grid sm:grid-cols-3 gap-8">
+
+          {/* Ingredients */}
+          <div className="sm:col-span-1">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-500 mb-4">
+              Ingredients
+            </h2>
+            <ul className="space-y-2.5">
+              {ingredients.map((item, i) => (
+                <li key={i} className="flex justify-between gap-4 text-sm border-b border-stone-900 pb-2.5">
+                  <span className="text-stone-300">{item.ingredient}</span>
+                  <span className="text-stone-500 text-right shrink-0">{item.measure}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Instructions */}
+          <div className="sm:col-span-2">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-500 mb-4">
+              Instructions
+            </h2>
+            <div className="space-y-4">
+              {meal.strInstructions
+                .split(/\r\n|\n|\r/)
+                .filter((p) => p.trim().length > 0)
+                .map((paragraph, i) => (
+                  <p key={i} className="text-stone-400 text-sm leading-relaxed">
+                    {paragraph.trim()}
+                  </p>
+                ))}
+            </div>
+
+            <div className="flex gap-6 mt-8">
+              {meal.strSource && (
+                <a
+                  href={meal.strSource}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-amber-400 hover:text-amber-300 text-sm transition-colors"
+                >
+                  View original recipe
+                </a>
+              )}
+              {meal.strYoutube && (
+                <a
+                  href={meal.strYoutube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-stone-500 hover:text-stone-300 text-sm transition-colors"
+                >
+                  Watch on YouTube
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
