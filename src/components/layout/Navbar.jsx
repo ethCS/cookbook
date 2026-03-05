@@ -15,7 +15,7 @@ export default function Navbar() {
   return (
     <nav className="border-b border-stone-800 px-6 py-4 flex items-center justify-between">
       <Link to="/" className="text-xl font-bold tracking-tight text-amber-400">
-        Mise en Place
+        CSCI322 Cookbook
       </Link>
       <div className="flex gap-6 text-sm text-stone-400">
         <Link to="/search" className="hover:text-stone-100 transition-colors">Explore</Link>
