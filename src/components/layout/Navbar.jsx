@@ -64,7 +64,7 @@ export default function Navbar() {
                 <div className="px-4 py-3 border-b border-edge">
                   <p className="text-xs text-dim mb-2">Theme</p>
                   <div className="flex gap-1">
-                    {themeOptions.map(({ value }) => (
+                    {themeOptions.map(({ value, Icon }) => (
                       <button
                         key={value}
                         onClick={() => setTheme(value)}
