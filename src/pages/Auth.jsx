@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
 
 export default function Auth() {
-  const [mode, setMode] = useState("login"); // "login" | "signup"
+  const [mode, setMode] = useState("login");
   const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const { login, signup } = useAuth();
@@ -35,26 +35,24 @@ export default function Auth() {
   const handleKeyDown = (e) => { if (e.key === "Enter") submit(); };
 
   return (
-    <div className="min-h-[calc(100vh-65px)] bg-stone-950 flex items-center justify-center px-4">
+    <div className="min-h-[calc(100vh-65px)] bg-page flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
 
-        {/* Header */}
         <div className="mb-10 text-center">
-          <h1 className="text-3xl font-bold text-stone-100 tracking-tight mb-2">
+          <h1 className="text-3xl font-bold text-heading tracking-tight mb-2">
             {mode === "login" ? "Welcome back" : "Create account"}
           </h1>
-          <p className="text-stone-500 text-sm">
+          <p className="text-dim text-sm">
             {mode === "login"
               ? "Sign in to access your recipes and favorites"
               : "Start building your personal cookbook"}
           </p>
         </div>
 
-        {/* Form */}
         <div className="space-y-4">
           {mode === "signup" && (
             <div>
-              <label className="block text-xs font-medium text-stone-400 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-medium text-sub mb-1.5 uppercase tracking-wider">
                 Username
               </label>
               <input
@@ -64,13 +62,13 @@ export default function Auth() {
                 onChange={handle}
                 onKeyDown={handleKeyDown}
                 placeholder="chef_john"
-                className="w-full bg-stone-900 border border-stone-800 rounded-lg px-4 py-3 text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 transition-colors text-sm"
+                className="w-full bg-card border border-edge rounded-lg px-4 py-3 text-heading placeholder-ghost focus:outline-none focus:border-accent transition-colors text-sm"
               />
             </div>
           )}
 
           <div>
-            <label className="block text-xs font-medium text-stone-400 mb-1.5 uppercase tracking-wider">
+            <label className="block text-xs font-medium text-sub mb-1.5 uppercase tracking-wider">
               Email
             </label>
             <input
@@ -80,12 +78,12 @@ export default function Auth() {
               onChange={handle}
               onKeyDown={handleKeyDown}
               placeholder="you@example.com"
-              className="w-full bg-stone-900 border border-stone-800 rounded-lg px-4 py-3 text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 transition-colors text-sm"
+              className="w-full bg-card border border-edge rounded-lg px-4 py-3 text-heading placeholder-ghost focus:outline-none focus:border-accent transition-colors text-sm"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-stone-400 mb-1.5 uppercase tracking-wider">
+            <label className="block text-xs font-medium text-sub mb-1.5 uppercase tracking-wider">
               Password
             </label>
             <input
@@ -95,25 +93,24 @@ export default function Auth() {
               onChange={handle}
               onKeyDown={handleKeyDown}
               placeholder="••••••••"
-              className="w-full bg-stone-900 border border-stone-800 rounded-lg px-4 py-3 text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 transition-colors text-sm"
+              className="w-full bg-card border border-edge rounded-lg px-4 py-3 text-heading placeholder-ghost focus:outline-none focus:border-accent transition-colors text-sm"
             />
           </div>
 
           <button
             onClick={submit}
             disabled={loading}
-            className="w-full bg-amber-500 hover:bg-amber-400 disabled:opacity-50 disabled:cursor-not-allowed text-stone-950 font-semibold rounded-lg py-3 transition-colors text-sm mt-2"
+            className="w-full bg-accent-solid hover:bg-accent-solid-hover disabled:opacity-50 disabled:cursor-not-allowed text-on-accent font-semibold rounded-lg py-3 transition-colors text-sm mt-2"
           >
             {loading ? "Please wait..." : mode === "login" ? "Sign in" : "Create account"}
           </button>
         </div>
 
-        {/* Toggle */}
-        <p className="text-center text-stone-500 text-sm mt-8">
+        <p className="text-center text-dim text-sm mt-8">
           {mode === "login" ? "Don't have an account? " : "Already have an account? "}
           <button
             onClick={() => setMode(mode === "login" ? "signup" : "login")}
-            className="text-amber-400 hover:text-amber-300 transition-colors font-medium"
+            className="text-accent hover:text-accent-hover transition-colors font-medium"
           >
             {mode === "login" ? "Sign up" : "Sign in"}
           </button>

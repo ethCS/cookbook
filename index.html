@@ -7,6 +7,9 @@
     <title>cookbook</title>
   </head>
   <body>
+    <script>
+      (function(){var t=localStorage.getItem("theme");var d=t==="light"||t==="dark"?t:matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",d)})();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

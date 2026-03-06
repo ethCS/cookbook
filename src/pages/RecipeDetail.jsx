@@ -42,12 +42,12 @@ export default function RecipeDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-stone-950 px-6 pt-12 max-w-4xl mx-auto">
-        <div className="h-8 w-32 bg-stone-900 rounded animate-pulse mb-8" />
-        <div className="h-80 bg-stone-900 rounded-3xl animate-pulse mb-8" />
+      <div className="min-h-screen bg-page px-6 pt-12 max-w-4xl mx-auto">
+        <div className="h-8 w-32 bg-chip rounded animate-pulse mb-8" />
+        <div className="h-80 bg-chip rounded-3xl animate-pulse mb-8" />
         <div className="space-y-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="h-4 bg-stone-900 rounded animate-pulse" style={{ width: `${80 - i * 8}%` }} />
+            <div key={i} className="h-4 bg-chip rounded animate-pulse" style={{ width: `${80 - i * 8}%` }} />
           ))}
         </div>
       </div>
@@ -56,10 +56,10 @@ export default function RecipeDetail() {
 
   if (!meal) {
     return (
-      <div className="min-h-screen bg-stone-950 flex items-center justify-center">
+      <div className="min-h-screen bg-page flex items-center justify-center">
         <div className="text-center">
-          <p className="text-stone-400 text-lg mb-4">Recipe not found</p>
-          <button onClick={() => navigate(-1)} className="text-amber-400 text-sm hover:text-amber-300">
+          <p className="text-sub text-lg mb-4">Recipe not found</p>
+          <button onClick={() => navigate(-1)} className="text-accent text-sm hover:text-accent-hover">
             Go back
           </button>
         </div>
@@ -70,16 +70,15 @@ export default function RecipeDetail() {
   const favorited = isFavorite(id);
 
   return (
-    <div className="min-h-screen bg-stone-950 pb-24">
+    <div className="min-h-screen bg-page pb-24">
 
-      {/* Hero image */}
       <div className="relative h-72 sm:h-96 w-full overflow-hidden">
         <img
           src={meal.strMealThumb}
           alt={meal.strMeal}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-page via-page/40 to-transparent" />
 
         <button
           onClick={() => navigate(-1)}
@@ -91,20 +90,19 @@ export default function RecipeDetail() {
 
       <div className="max-w-3xl mx-auto px-6 -mt-12 relative">
 
-        {/* Title card */}
         <div className="flex items-start justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-stone-100 tracking-tight leading-tight mb-3">
+            <h1 className="text-3xl sm:text-4xl font-bold text-heading tracking-tight leading-tight mb-3">
               {meal.strMeal}
             </h1>
             <div className="flex flex-wrap gap-2">
               {meal.strCategory && (
-                <span className="px-3 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-full text-xs font-medium">
+                <span className="px-3 py-1 bg-accent/10 border border-accent/20 text-accent rounded-full text-xs font-medium">
                   {meal.strCategory}
                 </span>
               )}
               {meal.strArea && (
-                <span className="px-3 py-1 bg-stone-800 border border-stone-700 text-stone-400 rounded-full text-xs font-medium">
+                <span className="px-3 py-1 bg-chip border border-edge-hover text-sub rounded-full text-xs font-medium">
                   {meal.strArea}
                 </span>
               )}
@@ -115,8 +113,8 @@ export default function RecipeDetail() {
             onClick={handleFavorite}
             className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-medium transition-all ${
               favorited
-                ? "bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20"
-                : "bg-stone-900 border-stone-800 text-stone-400 hover:border-amber-500/30 hover:text-amber-400"
+                ? "bg-accent/10 border-accent/30 text-accent hover:bg-accent/20"
+                : "bg-card border-edge text-sub hover:border-accent/30 hover:text-accent"
             }`}
           >
             <span>{favorited ? "♥" : "♡"}</span>
@@ -126,24 +124,22 @@ export default function RecipeDetail() {
 
         <div className="grid sm:grid-cols-3 gap-8">
 
-          {/* Ingredients */}
           <div className="sm:col-span-1">
-            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-500 mb-4">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-dim mb-4">
               Ingredients
             </h2>
             <ul className="space-y-2.5">
               {ingredients.map((item, i) => (
-                <li key={i} className="flex justify-between gap-4 text-sm border-b border-stone-900 pb-2.5">
-                  <span className="text-stone-300">{item.ingredient}</span>
-                  <span className="text-stone-500 text-right shrink-0">{item.measure}</span>
+                <li key={i} className="flex justify-between gap-4 text-sm border-b border-edge pb-2.5">
+                  <span className="text-body">{item.ingredient}</span>
+                  <span className="text-dim text-right shrink-0">{item.measure}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Instructions */}
           <div className="sm:col-span-2">
-            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-500 mb-4">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-dim mb-4">
               Instructions
             </h2>
             <div className="space-y-4">
@@ -151,7 +147,7 @@ export default function RecipeDetail() {
                 .split(/\r\n|\n|\r/)
                 .filter((p) => p.trim().length > 0)
                 .map((paragraph, i) => (
-                  <p key={i} className="text-stone-400 text-sm leading-relaxed">
+                  <p key={i} className="text-sub text-sm leading-relaxed">
                     {paragraph.trim()}
                   </p>
                 ))}
@@ -163,7 +159,7 @@ export default function RecipeDetail() {
                   href={meal.strSource}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-amber-400 hover:text-amber-300 text-sm transition-colors"
+                  className="text-accent hover:text-accent-hover text-sm transition-colors"
                 >
                   View original recipe
                 </a>
@@ -173,7 +169,7 @@ export default function RecipeDetail() {
                   href={meal.strYoutube}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-stone-500 hover:text-stone-300 text-sm transition-colors"
+                  className="text-dim hover:text-body text-sm transition-colors"
                 >
                   Watch on YouTube
                 </a>

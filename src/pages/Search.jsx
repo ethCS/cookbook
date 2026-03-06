@@ -44,41 +44,37 @@ export default function Search() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-950 px-6 pt-12 pb-24 max-w-6xl mx-auto">
+    <div className="min-h-screen bg-page px-6 pt-12 pb-24 max-w-6xl mx-auto">
 
-      {/* Search bar */}
-      <form onSubmit={handleSubmit} className="flex gap-3 mb-10 max-w-xl">
+      <form onSubmit={handleSubmit} className="flex gap-3 mb-10 max-w-xl mx-auto">
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search any dish..."
-          className="flex-1 bg-stone-900 border border-stone-800 rounded-xl px-5 py-3 text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 transition-colors text-sm"
+          className="flex-1 bg-card border border-edge rounded-xl px-5 py-3 text-heading placeholder-ghost focus:outline-none focus:border-accent transition-colors text-sm"
         />
         <button
           type="submit"
-          className="bg-amber-500 hover:bg-amber-400 text-stone-950 font-semibold px-6 py-3 rounded-xl transition-colors text-sm"
+          className="bg-accent-solid hover:bg-accent-solid-hover text-on-accent font-semibold px-6 py-3 rounded-xl transition-colors text-sm"
         >
           Search
         </button>
       </form>
 
-      {/* Status */}
       {searched && !loading && (
-        <p className="text-stone-500 text-xs uppercase tracking-widest mb-6">
+        <p className="text-dim text-xs uppercase tracking-widest mb-6">
           {results.length} result{results.length !== 1 ? "s" : ""} found
         </p>
       )}
 
-      {/* Loading skeleton */}
       {loading && (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="bg-stone-900 rounded-2xl aspect-square animate-pulse" />
+            <div key={i} className="bg-chip rounded-2xl aspect-square animate-pulse" />
           ))}
         </div>
       )}
 
-      {/* Results */}
       {!loading && results.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {results.map((meal) => (
@@ -98,7 +94,7 @@ export default function Search() {
                   {meal.strMeal}
                 </p>
                 {meal.strCategory && (
-                  <p className="text-amber-400 text-xs mt-1">{meal.strCategory}</p>
+                  <p className="text-accent text-xs mt-1">{meal.strCategory}</p>
                 )}
               </div>
             </button>
@@ -106,18 +102,16 @@ export default function Search() {
         </div>
       )}
 
-      {/* Empty state */}
       {!loading && searched && results.length === 0 && (
         <div className="text-center py-24">
-          <p className="text-stone-600 text-lg mb-2">No recipes found</p>
-          <p className="text-stone-700 text-sm">Try a different search term</p>
+          <p className="text-ghost text-lg mb-2">No recipes found</p>
+          <p className="text-faint text-sm">Try a different search term</p>
         </div>
       )}
 
-      {/* Initial state */}
       {!searched && !loading && (
         <div className="text-center py-24">
-          <p className="text-stone-600 text-lg">Search for a recipe above</p>
+          <p className="text-ghost text-lg">Search for a recipe above</p>
         </div>
       )}
     </div>

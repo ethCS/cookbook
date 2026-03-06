@@ -9,12 +9,12 @@ export default function Favorites() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-stone-950 flex items-center justify-center">
+      <div className="min-h-screen bg-page flex items-center justify-center">
         <div className="text-center">
-          <p className="text-stone-400 text-lg mb-4">Sign in to view your favorites</p>
+          <p className="text-sub text-lg mb-4">Sign in to view your favorites</p>
           <button
             onClick={() => navigate("/auth")}
-            className="bg-amber-500 hover:bg-amber-400 text-stone-950 font-semibold px-6 py-2.5 rounded-xl text-sm transition-colors"
+            className="bg-accent-solid hover:bg-accent-solid-hover text-on-accent font-semibold px-6 py-2.5 rounded-xl text-sm transition-colors"
           >
             Sign in
           </button>
@@ -24,11 +24,11 @@ export default function Favorites() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-950 px-6 pt-12 pb-24 max-w-6xl mx-auto">
+    <div className="min-h-screen bg-page px-6 pt-12 pb-24 max-w-6xl mx-auto">
 
       <div className="mb-10">
-        <h1 className="text-3xl font-bold text-stone-100 tracking-tight mb-2">Favorites</h1>
-        <p className="text-stone-500 text-sm">
+        <h1 className="text-3xl font-bold text-heading tracking-tight mb-2">Favorites</h1>
+        <p className="text-dim text-sm">
           {favorites.length === 0
             ? "No saved recipes yet"
             : `${favorites.length} saved recipe${favorites.length !== 1 ? "s" : ""}`}
@@ -37,11 +37,11 @@ export default function Favorites() {
 
       {favorites.length === 0 ? (
         <div className="text-center py-24">
-          <p className="text-stone-600 text-lg mb-2">Nothing here yet</p>
-          <p className="text-stone-700 text-sm mb-8">Browse recipes and hit Save to build your collection</p>
+          <p className="text-ghost text-lg mb-2">Nothing here yet</p>
+          <p className="text-faint text-sm mb-8">Browse recipes and hit Save to build your collection</p>
           <button
             onClick={() => navigate("/search")}
-            className="bg-amber-500 hover:bg-amber-400 text-stone-950 font-semibold px-6 py-2.5 rounded-xl text-sm transition-colors"
+            className="bg-accent-solid hover:bg-accent-solid-hover text-on-accent font-semibold px-6 py-2.5 rounded-xl text-sm transition-colors"
           >
             Explore recipes
           </button>
@@ -58,7 +58,6 @@ export default function Favorites() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
 
-              {/* Remove button */}
               <button
                 onClick={() => removeFavorite(fav.recipeId)}
                 className="absolute top-3 right-3 bg-black/50 hover:bg-red-500/80 backdrop-blur-sm text-white rounded-full w-8 h-8 flex items-center justify-center text-xs transition-colors opacity-0 group-hover:opacity-100"
@@ -74,7 +73,7 @@ export default function Favorites() {
                   {fav.title}
                 </p>
                 {fav.category && (
-                  <p className="text-amber-400 text-xs mt-1">{fav.category}</p>
+                  <p className="text-accent text-xs mt-1">{fav.category}</p>
                 )}
               </div>
             </div>
